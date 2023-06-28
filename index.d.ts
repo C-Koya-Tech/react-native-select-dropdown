@@ -189,7 +189,7 @@ declare module 'react-native-select-dropdown' {
       length?: number;
       offset: number;
     };
-    dropdownWindowStyle: StyleProp<ViewStyle>;
+    dropdownWindowStyle: StyleProp<any>;
     onRequestClose: () => void;
   }
 }
