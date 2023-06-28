@@ -31,7 +31,7 @@ export const useLayoutDropdown = (data, dropdownStyle, rowStyle, search, centerD
     setButtonLayout({ w, h, px, py });
 
     if (centerDropDown) {
-      setDropdownPY(height / 2 - dropdownHEIGHT / 2);
+      setDropdownPY(height / 2 - dropdownHEIGHT / 2 - safeDropdownViewUnderKeyboard);
       setDropdownPX(width / 2 - dropdownWIDTH / 2);
     } else {
 
