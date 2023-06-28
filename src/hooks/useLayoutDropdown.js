@@ -1,8 +1,8 @@
-import {useEffect, useState, useMemo} from 'react';
-import {I18nManager, Dimensions} from 'react-native';
-import {calculateDropdownHeight} from '../helpers/calculateDropdownHeight';
-import {useKeyboardRemainingScreenHeight} from './useKeyboardRemainingScreenHeight';
-const {height} = Dimensions.get('window');
+import { useEffect, useState, useMemo } from 'react';
+import { I18nManager, Dimensions } from 'react-native';
+import { calculateDropdownHeight } from '../helpers/calculateDropdownHeight';
+import { useKeyboardRemainingScreenHeight } from './useKeyboardRemainingScreenHeight';
+const { height } = Dimensions.get('window');
 
 export const useLayoutDropdown = (data, dropdownStyle, rowStyle, search) => {
   const [isVisible, setIsVisible] = useState(false); // dropdown visible ?
@@ -21,7 +21,7 @@ export const useLayoutDropdown = (data, dropdownStyle, rowStyle, search) => {
   }, [dropdownStyle, rowStyle, data]);
 
   const onDropdownButtonLayout = (w, h, px, py) => {
-    setButtonLayout({w, h, px, py});
+    setButtonLayout({ w, h, px, py });
     if (height - 18 < py + h + dropdownHEIGHT) {
       setDropdownPX(px);
       setDropdownPY(py - 2 - dropdownHEIGHT);
@@ -48,14 +48,14 @@ export const useLayoutDropdown = (data, dropdownStyle, rowStyle, search) => {
         borderTopWidth: 0,
         overflow: 'hidden',
       },
-      ...dropdownStyle,
       ...{
         position: 'absolute',
         top: top,
         height: dropdownHEIGHT,
         width: dropdownWIDTH,
       },
-      ...(I18nManager.isRTL ? {right: dropdownStyle?.right || dropdownPX} : {left: dropdownStyle?.left || dropdownPX}),
+      ...(I18nManager.isRTL ? { right: dropdownStyle?.right || dropdownPX } : { left: dropdownStyle?.left || dropdownPX }),
+      ...dropdownStyle,
     };
   }, [dropdownStyle, remainigHeightAvoidKeyboard, dropdownPX, dropdownPY, dropdownHEIGHT, dropdownWIDTH]);
 

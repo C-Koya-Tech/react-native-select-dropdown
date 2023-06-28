@@ -1,15 +1,15 @@
-import React, {forwardRef, useImperativeHandle} from 'react';
-import {View, Text, TouchableOpacity, FlatList} from 'react-native';
+import React, { forwardRef, useImperativeHandle } from 'react';
+import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import styles from './styles';
-import {isExist} from './helpers/isExist';
-import {mergeStyles} from './helpers/mergeStyles';
+import { isExist } from './helpers/isExist';
+import { mergeStyles } from './helpers/mergeStyles';
 import Input from './components/Input';
 import DropdownOverlay from './components/DropdownOverlay';
 import DropdownModal from './components/DropdownModal';
 import DropdownWindow from './components/DropdownWindow';
-import {useSelectDropdown} from './hooks/useSelectDropdown';
-import {useLayoutDropdown} from './hooks/useLayoutDropdown';
-import {useRefs} from './hooks/useRefs';
+import { useSelectDropdown } from './hooks/useSelectDropdown';
+import { useLayoutDropdown } from './hooks/useLayoutDropdown';
+import { useRefs } from './hooks/useRefs';
 
 const SelectDropdown = (
   {
@@ -58,7 +58,7 @@ const SelectDropdown = (
 ) => {
   const disabledInternalSearch = !!onChangeSearchInputText;
   /* ******************* hooks ******************* */
-  const {dropdownButtonRef, dropDownFlatlistRef} = useRefs();
+  const { dropdownButtonRef, dropDownFlatlistRef } = useRefs();
   const {
     dataArr, //
     selectedItem,
@@ -90,6 +90,12 @@ const SelectDropdown = (
     selectIndex: index => {
       selectItem(index);
     },
+    isVisible,
+    setIsVisible,
+    buttonLayout,
+    getItemLayout,
+    dropdownWindowStyle,
+    onRequestClose,
   }));
   /* ******************* Methods ******************* */
   const openDropdown = () => {
@@ -142,7 +148,7 @@ const SelectDropdown = (
       )
     );
   };
-  const renderFlatlistItem = ({item, index}) => {
+  const renderFlatlistItem = ({ item, index }) => {
     const isSelected = index == selectedIndex;
     return (
       isExist(item) && (

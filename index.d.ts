@@ -177,5 +177,19 @@ declare module 'react-native-select-dropdown' {
      * Select index.
      */
     selectIndex(index: number): void;
+
+    isVisible: boolean;
+    setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
+    buttonLayout: {w: number; h: number; px: number; py: number};
+    getItemLayout: (
+      flatlistData,
+      index,
+    ) => {
+      index: number;
+      length?: number;
+      offset: number;
+    };
+    dropdownWindowStyle: StyleProp<ViewStyle>;
+    onRequestClose: () => void;
   }
 }
