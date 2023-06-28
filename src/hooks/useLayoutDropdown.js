@@ -2,9 +2,10 @@ import { useEffect, useState, useMemo } from 'react';
 import { I18nManager, Dimensions } from 'react-native';
 import { calculateDropdownHeight } from '../helpers/calculateDropdownHeight';
 import { useKeyboardRemainingScreenHeight } from './useKeyboardRemainingScreenHeight';
-const { height } = Dimensions.get('window');
 
-export const useLayoutDropdown = (data, dropdownStyle, rowStyle, search) => {
+export const useLayoutDropdown = (data, dropdownStyle, rowStyle, search, centerDropDown) => {
+  const { height, width } = Dimensions.get('window');
+
   const [isVisible, setIsVisible] = useState(false); // dropdown visible ?
   const [buttonLayout, setButtonLayout] = useState(null);
   const [dropdownPX, setDropdownPX] = useState(0); // position x
@@ -20,15 +21,29 @@ export const useLayoutDropdown = (data, dropdownStyle, rowStyle, search) => {
     setDropdownHEIGHT(calculateDropdownHeight(dropdownStyle, rowStyle, data?.length || 0, search));
   }, [dropdownStyle, rowStyle, data]);
 
+  useEffect(() => {
+    if (isVisible) {
+      onDropdownButtonLayout(buttonLayout?.w, buttonLayout?.h, buttonLayout?.px, buttonLayout?.py);
+    }
+  }, [height, width, isVisible]);
+
   const onDropdownButtonLayout = (w, h, px, py) => {
     setButtonLayout({ w, h, px, py });
-    if (height - 18 < py + h + dropdownHEIGHT) {
-      setDropdownPX(px);
-      setDropdownPY(py - 2 - dropdownHEIGHT);
+
+    if (centerDropDown) {
+      setDropdownPY(height / 2 - dropdownHEIGHT / 2);
+      setDropdownPX(width / 2 - dropdownWIDTH / 2);
     } else {
-      setDropdownPX(px);
-      setDropdownPY(py + h + 2);
+
+      if (height - 18 < py + h + dropdownHEIGHT) {
+        setDropdownPX(px);
+        setDropdownPY(py - 2 - dropdownHEIGHT);
+      } else {
+        setDropdownPX(px);
+        setDropdownPY(py + h + 2);
+      }
     }
+
     setDropdownWIDTH(dropdownStyle?.width || w);
   };
 
@@ -39,22 +54,22 @@ export const useLayoutDropdown = (data, dropdownStyle, rowStyle, search) => {
   });
 
   const dropdownWindowStyle = useMemo(() => {
-    const top =
-      remainigHeightAvoidKeyboard < dropdownPY + safeDropdownViewUnderKeyboard
-        ? remainigHeightAvoidKeyboard - safeDropdownViewUnderKeyboard
-        : dropdownPY;
+    const top = remainigHeightAvoidKeyboard < dropdownPY + safeDropdownViewUnderKeyboard
+      ? remainigHeightAvoidKeyboard - safeDropdownViewUnderKeyboard
+      : dropdownPY;
+
     return {
       ...{
         borderTopWidth: 0,
         overflow: 'hidden',
       },
+      ...dropdownStyle,
       ...{
         position: 'absolute',
         top: top,
         height: dropdownHEIGHT,
         width: dropdownWIDTH,
       },
-      ...dropdownStyle,
       ...(I18nManager.isRTL ? { right: dropdownStyle?.right || dropdownPX } : { left: dropdownStyle?.left || dropdownPX }),
     };
   }, [dropdownStyle, remainigHeightAvoidKeyboard, dropdownPX, dropdownPY, dropdownHEIGHT, dropdownWIDTH]);

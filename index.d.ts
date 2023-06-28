@@ -123,6 +123,12 @@ declare module 'react-native-select-dropdown' {
      * function callback when the search input text changes, this will automatically disable the dropdown's internal search to be implemented manually outside the component
      */
     onChangeSearchInputText?: (searchText: string) => void;
+
+    /**
+     * Centre le dropdown sur l'écran, sans prendre en compte la position du bouton
+     */
+    centerDropDown?: boolean;
+
     /**
      * function returns React component for search input icon
      */
@@ -180,16 +186,5 @@ declare module 'react-native-select-dropdown' {
 
     isVisible: boolean;
     setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
-    buttonLayout: {w: number; h: number; px: number; py: number};
-    getItemLayout: (
-      flatlistData,
-      index,
-    ) => {
-      index: number;
-      length?: number;
-      offset: number;
-    };
-    dropdownWindowStyle: StyleProp<any>;
-    onRequestClose: () => void;
   }
 }
